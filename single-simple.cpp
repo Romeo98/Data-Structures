@@ -12,8 +12,9 @@ class List {
         Node *Head;
 
     public:
-        List();
-        
+        List() : Head(NULL)  
+        { }
+         
 		void Node_insFirst(int &);
 		void Node_insLast(int &);
 		void Node_insBefore(int &, int &);
@@ -110,10 +111,6 @@ int main() {
 
 }
 
-
-List::List() {
-    Head = NULL;
-}
 
 void List::Node_insFirst(int &data) {
     Node *New = new Node;
