@@ -15,19 +15,19 @@ class List {
         List() : Head(NULL)  
         { }
          
-		void Node_insFirst(int &);
-		void Node_insLast(int &);
-		void Node_insBefore(int &, int &);
-		void Node_insAfter(int &, int &);
-		void Node_Delete(int &);
+	void Node_insFirst(int &);
+	void Node_insLast(int &);
+	void Node_insBefore(int &, int &);
+	void Node_insAfter(int &, int &);
+	void Node_Delete(int &);
 
-		void List_Delete();
-		void recDelete(Node *);
+	void List_Delete();
+	void recDelete(Node *);
 
-		void List_recShow();
+	void List_recShow();
         void recShow(Node *);
 
-		void List_Show();
+	void List_Show();
 };
 
 
