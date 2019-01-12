@@ -135,13 +135,10 @@ void List::Node_insLast(int &data) {
 }
 
 void List::Node_insBefore(int &data, int &dataRF) {
-    if(!Head)
+    if(!Head || Head->data == dataRF)
         return Node_insFirst(data);
 
     Node *Temp = Head;
-
-    if(Temp->data == dataRF)
-        return Node_insFirst(data);
 
     while(Temp->next && (Temp->next)->data != dataRF)
         Temp = Temp->next;
@@ -197,6 +194,7 @@ void List::List_Delete() {
     recDelete(Head);
     Head = NULL;
 }
+
 
 void List::recDelete(Node *Temp) {
     if(!Head)
