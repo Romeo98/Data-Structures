@@ -189,7 +189,9 @@ void List::Node_Delete(int &dataRF) {
 
     if(Temp1->data == dataRF) {
         Head = Head->next;
-        Head->previous = NULL;
+        if(Temp1->next)
+            Head->previous = NULL;
+
         delete Temp1;
         return;
     }
@@ -199,14 +201,13 @@ void List::Node_Delete(int &dataRF) {
 
     if(Temp1->next->data == dataRF) {
         Temp2  = Temp1->next;
-        Temp1->next = Temp1->next->next;
+        Temp1->next = (Temp1->next)->next;
     
         if(Temp1->next)
             Temp1->next->previous = Temp1;
 
         delete Temp2;
     }
-    
 } 
 
 void List::List_Delete() {
