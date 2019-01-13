@@ -169,8 +169,8 @@ void List::Node_insAfter(int &data, int &dataRF) {
         Temp = Temp->next;
 
     if(Temp->data == dataRF) {
-//        if(Temp->next)
-  //          return Node_insLast(data);
+        if(!Temp->next) 
+            return Node_insLast(data);
 
         Node *New  = new Node;
         New->data = data;
@@ -191,17 +191,22 @@ void List::Node_Delete(int &dataRF) {
         Head = Head->next;
         Head->previous = NULL;
         delete Temp1;
+        return;
     }
 
     while(Temp1->next && (Temp1->next)->data != dataRF) 
         Temp1 = Temp1->next;
 
-    if(Temp1->next) {
-        Temp2 = Temp1->next;
-        Temp1->next = (Temp1->next)->next;
-        Temp1->next->previous = Temp1;
+    if(Temp1->next->data == dataRF) {
+        Temp2  = Temp1->next;
+        Temp1->next = Temp1->next->next;
+    
+        if(Temp1->next)
+            Temp1->next->previous = Temp1;
+
         delete Temp2;
     }
+    
 } 
 
 void List::List_Delete() {
@@ -254,5 +259,4 @@ void List::List_Show() {
         std::cout << Temp2->data << '\n';
         Temp2 = Temp2->previous;
 	}
-    
 }
