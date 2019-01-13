@@ -117,7 +117,10 @@ void List::Node_insFirst(int &data) {
     New->data = data;
     New->next = Head;
     New->previous = NULL;
-    Head->previous = New;
+	
+	if(Head)
+		Head->previous = New;
+
     Head = New;
 }
 
@@ -166,8 +169,8 @@ void List::Node_insAfter(int &data, int &dataRF) {
         Temp = Temp->next;
 
     if(Temp->data == dataRF) {
-        if(Temp->next)
-            return Node_insLast(data);
+//        if(Temp->next)
+  //          return Node_insLast(data);
 
         Node *New  = new Node;
         New->data = data;
@@ -236,18 +239,20 @@ void List::List_Show() {
         return;
     }
     
-    Node *Temp = Head;
+    Node *Temp1 = Head, *Temp2 = NULL;
 
-    while(Temp) {
-        std::cout << Temp->data << '\n';
-        Temp = Temp->next;
+    while(Temp1) {
+        std::cout << Temp1->data << '\n';
+		Temp2 = Temp1;
+        Temp1 = Temp1->next;
     }
     
     std::cout << "\n\n";
     
-    do {
-        std::cout << Temp->data;
-        Temp = Temp->previous;
-    } while(Temp);
+    
+     while(Temp2) {
+        std::cout << Temp2->data << '\n';
+        Temp2 = Temp2->previous;
+	}
     
 }
