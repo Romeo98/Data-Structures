@@ -21,11 +21,11 @@ class List {
 		void Node_insAfter(int &, int &);
 		void Node_Delete(int &);
 
-		void List_Delete();
-		void recDelete(Node *);
+		void list_delete();
+		void recdelete(Node *);
 
-		void List_recShow();
-        void recShow(Node *);
+		void list_recshow();
+        void recshow(Node *);
 
         void List_Show();
 };
