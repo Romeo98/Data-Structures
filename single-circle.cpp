@@ -1,10 +1,10 @@
-// Double single-linked list functions
+// Single circular-linked list functions
 
 #include <iostream>
 
 struct Node {
     int data;
-    Node *previous, *next;
+    Node *Next;
 };
 
 class List {
@@ -12,7 +12,7 @@ class List {
         Node *Head;
 
     public:
-        List() : Head(NULL)
+        List(): Head(NULL)
         { }
 
         void Node_insFirst(int &);
@@ -21,18 +21,18 @@ class List {
 		void Node_insAfter(int &, int &);
 		void Node_Delete(int &);
 
-		void list_delete();
-		void recdelete(Node *);
+		void List_Delete();
+		void recDelete(Node *);
 
-		void list_recshow();
-        void recshow(Node *);
+		void List_recShow();
+        void recShow(Node *);
 
         void List_Show();
 };
 
 
 int main() {
-    List Object;
+	List Object;
 	int data, dataRF;
 	char option;
 
@@ -108,19 +108,27 @@ int main() {
 		std::cin.ignore();
 
     } while(true);
-
 }
 
 
 void List::Node_insFirst(int &data) {
     Node *New = new Node;
     New->data = data;
-    New->next = Head;
-    New->previous = NULL;
-	
-	if(Head)
-		Head->previous = New;
+    
+    if(!Head) {
+        Head = New;
+        New->next = Head;
+        return;
+    }
 
+    Node *Temp = Head;
+
+    while(Temp->next != Head)
+        Temp = Temp->next;
+
+    New->next = Head;
+
+    Temp->next = New;
     Head = New;
 }
 
@@ -129,15 +137,14 @@ void List::Node_insLast(int &data) {
         return Node_insFirst(data);
 
     Node *Temp = Head;
-    
-    while(Temp->next)
+
+    while(Temp->next != Head)
         Temp = Temp->next;
-    
+
     Node *New = new Node;
     New->data = data;
-    New->next = Temp->next;
-    New->previous = Temp;
     Temp->next = New;
+    New->next = Head;
 }
 
 void List::Node_insBefore(int &data, int &dataRF) {
@@ -146,15 +153,13 @@ void List::Node_insBefore(int &data, int &dataRF) {
 
     Node *Temp = Head;
 
-   while(Temp->next && (Temp->next)->data != dataRF) 
-       Temp = Temp->next;
-    
+    while(Temp->next != Head && (Temp->next)->data != dataRF)
+        Temp = Temp->next;
+
     if( (Temp->next)->data == dataRF) {
         Node *New = new Node;
         New->data = data;
         New->next = Temp->next;
-        New->previous = Temp;
-        (Temp->next)->previous = New;
         Temp->next = New;
     }
 }
@@ -162,102 +167,63 @@ void List::Node_insBefore(int &data, int &dataRF) {
 void List::Node_insAfter(int &data, int &dataRF) {
     if(!Head)
         return Node_insFirst(data);
-    
+
     Node *Temp = Head;
 
-    while(Temp->next && Temp->data != dataRF) 
+    while(Temp->next != Head && Temp->data != dataRF)
         Temp = Temp->next;
-
+    
     if(Temp->data == dataRF) {
-        if(!Temp->next) 
-            return Node_insLast(data);
-
-        Node *New  = new Node;
+        if(Temp->next == Head)
+            return Node_Last(data);
+        
+        Node *New = new Node;
         New->data = data;
         New->next = Temp->next;
-        New->previous = Temp;
-        (Temp->next)->previous = New;
         Temp->next = New;
     }
 }
 
-void List::Node_Delete(int &dataRF) {
+void Node_Delete(int &dataRF) {
     if(!Head)
         return;
-    
+
     Node *Temp1 = Head, *Temp2 = NULL;
 
     if(Temp1->data == dataRF) {
-        Head = Head->next;
-        if(Temp1->next)
-            Head->previous = NULL;
-
-        delete Temp1;
+        if(Temp1->next == Head) {
+            delete Temp1;
+            Head = NULL;
+        }
+        
+        else {
+            while(Temp2->next != Head)
+                Temp2 = Temp2->next;
+           
+            Head = Head->next;
+            Temp2->next = Head;
+            delete Temp1;
+        }
         return;
     }
 
-    while(Temp1->next && (Temp1->next)->data != dataRF) 
+    while(Temp1->next != Head && (Temp1->next)->data != dataRF)
         Temp1 = Temp1->next;
 
-    if(Temp1->next->data == dataRF) {
-        Temp2  = Temp1->next;
-        Temp1->next = (Temp1->next)->next;
-    
-        if(Temp1->next)
-            Temp1->next->previous = Temp1;
 
+    do {
+
+        Temp1 = Temp1->next;
+
+    } while(Temp1 != Head && (Temp1->next)->data != data);
+    
+    Temp2 = Temp1;
+
+    if( (Temp1->next)->data == dataRF) {
+        Temp2 = Temp1->next;
+        Temp1->next = (Temp1->next)->next;
         delete Temp2;
     }
-} 
-
-void List::List_Delete() {
-    recDelete(Head);
-    Head = NULL;
 }
 
-void List::recDelete(Node *Temp) {
-    if(!Head)
-        return;
 
-    if(Temp) 
-        recShow(Temp->next);
-
-    delete Temp;
-}
-
-void List::List_recShow() {
-    recShow(Head);
-}
-
-void List::recShow(Node *Temp) {
-    if(!Head)
-        return;
-
-    if(Temp) {
-        recShow(Temp->next);
-        std::cout << Temp->data << '\n';
-    }
-}
-
-void List::List_Show() {
-    if(!Head) {
-        std::cout << "Empty List\n";
-        return;
-    }
-    
-    Node *Temp1 = Head, *Temp2 = NULL;
-
-    while(Temp1) {
-        std::cout << Temp1->data << '\n';
-		Temp2 = Temp1;
-        Temp1 = Temp1->next;
-    }
-    
-    std::cout << "\n\n";
-    
-    
-     while(Temp2) {
-        std::cout << Temp2->data << '\n';
-        Temp2 = Temp2->previous;
-	}
-}
