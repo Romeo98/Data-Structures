@@ -203,7 +203,7 @@ void List::Node_Delete(int &dataRF) {
 
     if(Temp1->data == dataRF) {
         
-        if(Temp1->next = Head) {
+        if(Temp1->next == Head) {
             delete Temp1;
             Head = NULL;
         }
