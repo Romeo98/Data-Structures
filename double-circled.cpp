@@ -20,18 +20,95 @@ class List {
 		void Node_insBefore(int &, int &);
 		void Node_insAfter(int &, int &);
 		void Node_Delete(int &);
-
+/*
 		void list_delete();
 		void recdelete(Node *);
 
 		void list_recshow();
         void recshow(Node *);
-
+*/
         void List_Show();
 };
 
 
 int main() {
+    List object;
+	int data, datarf;
+	char option;
+
+	do {
+		std::cout << "menu\n\n";
+		std::cout << "1) insert node at the beginning\n";
+		std::cout << "2) insert node at the end\n";
+		std::cout << "3) insert node before\n";
+		std::cout << "4) insert node after\n";
+		std::cout << "5) delete node\n";
+		std::cout << "6) delete list\n";
+		std::cout << "7) show list\n";
+		std::cout << "8) show inverted list\n";
+		std::cout << "9) salir\n\n";
+		std::cout << "your option is: ";
+
+		std::cin >> option;
+		system("clear");
+
+		if(option != '9') 
+
+			switch(option) {
+				
+				case '1': 
+					std::cout << "exit ctrl-d\n";
+					while(std::cin >> data)
+						object.Node_insFirst(data);
+					break;
+				
+				case '2':
+					std::cout << "exit ctrl-d\n";
+					while(std::cin >> data)
+						object.Node_insLast(data);
+					break;
+				
+				case '3':
+					std::cout << "enter data & datarrf\n";
+					std::cin >> data >> datarf;
+					object.Node_insBefore(data, datarf);
+					break;
+				
+				case '4':
+					std::cout << "enter data & datarrf\n";
+					std::cin >> data >> datarf;
+					object.Node_insAfter(data, datarf);
+					break;
+				
+				case '5':
+					std::cout << "enter datarf\n";
+					std::cin >> datarf;
+					object.Node_Delete(datarf);
+					break;
+				
+/*				case '6':
+					object.list_delete();
+					break;
+
+				
+				case '7':
+					object.list_show();
+					break;
+				
+				case '8':
+					object.list_recshow();
+*/					
+			}
+
+		else 
+			break;
+		
+		std::cout << '\n';
+		object.List_Show();
+		std::cin.clear();
+		std::cin.ignore();
+
+    } while(true);
 
 }
 
@@ -180,8 +257,15 @@ void List::List_Show() {
         Temp1 = Temp1->next;
     } while(Temp1 != Head);
     
-    do {
+    std::cout << "\n\n";
+
+    while(true) {
         std::cout << Temp2->data << '\n';
         Temp2 = Temp2->previous;
-    } while(Temp2 != Head);
+
+        if(Temp2 == Head) {
+            std::cout << Temp2->data << '\n';
+            break;
+        }
+    }
 }
